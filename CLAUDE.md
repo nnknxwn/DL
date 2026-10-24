@@ -28,6 +28,43 @@
 ## Окружение
 
 - Python 3.12, PyTorch, pandas, numpy, scikit-learn (scikit-learn — только для препроцессинга, сплитов и метрик).
+- venv в корне репо: `.venv` (в .gitignore). Создание: `uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python torch numpy pandas scikit-learn matplotlib jupyter ipykernel nbformat nbconvert`.
+- Системный `python3` (3.9) без pandas — всегда запускать `.venv/bin/python`. В VS Code выбрать интерпретатор `.venv/bin/python`, иначе Pyright ругается на импорты.
+- `multiprocessing` на macOS запускать только из `.py`-файла, не через stdin/heredoc (`python - <<EOF`): воркеры не стартуют и бесконечно перезапускаются.
+
+## Порядок работы над заданием-контестом
+
+Папка `dl_hwN_*/solution/` (на примере ДЗ 1):
+
+| Файл | Назначение |
+|---|---|
+| `build_solution.py` | генератор `solution.ipynb` через nbformat (ноутбук правится **здесь**, а не руками) |
+| `solution.ipynb` | чистовик для сдачи (задача C); автономный, сам пишет `submission.csv` |
+| `experiments.py` | рабочая копия: формат `# %%` (в VS Code открывается как ноутбук); `python experiments.py <группа>...` гоняет группы конфигов параллельно |
+| `runs/results.jsonl` | итоги всех экспериментов (в git); `runs/*.npy` — OOF/test предсказания (не в git) |
+| `EXPERIMENTS.md` | журнал: эксперименты, диагностика, все посылки с sha256 и вердиктами |
+| `check_submission.py` | проверка формата CSV перед любой посылкой |
+| `submissions/` | архив каждого отправленного файла (CSV и копия ноутбука) |
+
+Команды (из папки `solution/`):
+```bash
+../../.venv/bin/python build_solution.py solution.ipynb
+../../.venv/bin/jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=1800 solution.ipynb
+../../.venv/bin/python check_submission.py submission.csv
+../../.venv/bin/python experiments.py <группа> [<группа> ...]
+```
+
+Правила сдачи (Яндекс Контест, задачи A/B/C):
+- A показывает Public AP, но не идёт в зачёт; B засчитывается (последняя OK), AP до дедлайна не показывает; C — ноутбук.
+- В B отправлять **только тот файл, что уже проверен в A** (совпадение sha256). C — ноутбук, который воспроизводит этот CSV.
+- Страховка: рабочие B и C отправить как можно раньше, потом перезаписывать.
+- Каждую посылку — копией в `submissions/` и строкой в `EXPERIMENTS.md`; ноутбук тоже архивировать перед перезаписью.
+- Выбор модели — по локальной CV (повторная StratifiedGroupKFold), public — только sanity-check: он маленький и шумный.
+
+## Распределение работы с агентами
+
+- Реализацию (код экспериментов, правки генератора ноутбука, скрипты) отдавать `implementer` (Sonnet) с полным поручением: что сделать, файлы, образец кода, критерии готовности. Главная сессия — план, выбор, проверка.
+- Перед финальной сдачей — `critic` по чек-листу правил задания.
 
 ## Git
 
