@@ -16,6 +16,7 @@
 | № | Тема | Условие | Решение | Статус |
 |---|---|---|---|---|
 | 1 | Anomaly detection в табличных данных (MLP / автоэнкодер), метрика AP | [README.md](dl_hw1_competition_data/README.md) | [solution/](dl_hw1_competition_data/solution/), журнал [EXPERIMENTS.md](dl_hw1_competition_data/solution/EXPERIMENTS.md) | ✅ сдано 2026-10-24: MLP, CV AP 0.746, Public AP 0.604; итог после дедлайна |
+| 2 | Классификация изображений (МРТ, 5 классов), CNN с нуля, метрика Accuracy, порог Public ≥ 0.85 | [README.md](dl_hw2_competition_data_v5/README.md) | — | ⏳ в работе |
 
 ### Уроки ДЗ 1 (пригодятся в следующих контестах)
 
