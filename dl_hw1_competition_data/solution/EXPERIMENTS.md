@@ -52,7 +52,7 @@ CV с 02 и дальше: StratifiedGroupKFold(5) × 3 повтора (груп�
 | 2026-10-24 | B | submissions/02_mlp_gelu_drop_pwsqrt.csv | bda0d416605d1294f7088de89423bf29340b7d137bf7ac573dfc88659e092ba8 | OK | — |
 | 2026-10-24 | C | submissions/02_solution.ipynb | 6276721740dbab12935fe1dd4e8d5bc90342e64edb3c253bd05cd9bb5a58f529 | OK | — |
 | 2026-10-24 16:00 | A (id 169284963) | submissions/04_mlp_fulltrain_10seeds.csv | 1eb4e89f45daebe6cc93f39f4acdd6b311e206c7c30ba101bf0970464817eb3b | OK | 0.6036 |
-| 2026-10-24 | B (финал) | submissions/04_mlp_fulltrain_10seeds.csv | 1eb4e89f45daebe6cc93f39f4acdd6b311e206c7c30ba101bf0970464817eb3b | отправлено | — |
-| 2026-10-24 | C (финал) | submissions/04_solution.ipynb | 0b7cc640298d94dfe5ebc46fba11221cd1f668fe3182ca5686778b04696e7f29 | отправлено | — |
+| 2026-10-24 | B (финал) | submissions/04_mlp_fulltrain_10seeds.csv | 1eb4e89f45daebe6cc93f39f4acdd6b311e206c7c30ba101bf0970464817eb3b | OK | — |
+| 2026-10-24 | C (финал) | submissions/04_solution.ipynb | 0b7cc640298d94dfe5ebc46fba11221cd1f668fe3182ca5686778b04696e7f29 | OK | — |
 
 После финальных B и C ничего не отправлялось. Итог по правилам: последние принятые B и C до дедлайна.
