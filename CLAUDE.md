@@ -16,7 +16,7 @@
 | № | Тема | Условие | Решение | Статус |
 |---|---|---|---|---|
 | 1 | Anomaly detection в табличных данных (MLP / автоэнкодер), метрика AP | [README.md](dl_hw1_competition_data/README.md) | [solution/](dl_hw1_competition_data/solution/), журнал [EXPERIMENTS.md](dl_hw1_competition_data/solution/EXPERIMENTS.md) | ✅ сдано 2026-10-24: MLP, CV AP 0.746, Public AP 0.604; итог после дедлайна |
-| 2 | Классификация изображений (МРТ, 5 классов), CNN с нуля, метрика Accuracy, порог Public ≥ 0.85 | [README.md](dl_hw2_competition_data_v5/README.md) | — | ⏳ в работе |
+| 2 | Классификация изображений (МРТ, 5 классов), CNN с нуля, метрика Accuracy, порог Public ≥ 0.85 | [README.md](dl_hw2_competition_data_v5/README.md) | [solution/](dl_hw2_competition_data_v5/solution/), журнал [EXPERIMENTS.md](dl_hw2_competition_data_v5/solution/EXPERIMENTS.md) | ✅ сдано 2026-10-25: ResNet с нуля + аугментации + псевдо-лейблинг, CV 0.994, Public 1.000; итог после дедлайна |
 
 ### Уроки ДЗ 1 (пригодятся в следующих контестах)
 
@@ -24,6 +24,14 @@
 - Если CV и public расходятся — сначала проверить гипотезы (сдвиг признаков через adversarial validation, утечка через дубли/соседей, новые типы аномалий через пробу AE), а не перебирать модели вслепую.
 - Финальные модели обучать на всём train с числом эпох из CV — небольшой, но надёжный прирост.
 - Свежий взгляд (агент без контекста) и `critic` перед финалом окупаются: ловят дыры в плане и подтверждают воспроизводимость.
+
+### Уроки ДЗ 2
+
+- Если val насыщен (все хорошие варианты дают 1.000) — сравнивать по log-loss и по кросс-валидации на train+val (почти-дубли в одном фолде), а не по val accuracy.
+- Искать почти-дубли (корреляция уменьшенных картинок) между и внутри сплитов: они завышают val и дают метрику без меток — согласованность предсказаний на парах почти-дублей test. Именно она нашла ошибку 02 (двойники с разными классами).
+- Псевдо-лейблинг (если разрешён) проверять честно: в CV метки неразмеченным даёт модель, не видевшая этот фолд. Ручная правка меток test и подбор через public запрещены — чинить модель.
+- На MPS `channels_last` в 3 раза медленнее; fp16 не ускоряет. Аугментации считать батчем на устройстве (affine_grid), DataLoader workers не нужны.
+- Ноутбук с долгим обучением выполнять с `--ExecutePreprocessor.timeout=-1` и из его штатной папки (относительный `DATA_DIR`); выполненный ноутбук не перезаписывать генератором.
 
 ## Правила, общие для заданий
 
@@ -56,8 +64,8 @@
 
 Команды (из папки `solution/`):
 ```bash
-../../.venv/bin/python build_solution.py solution.ipynb
-../../.venv/bin/jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=1800 solution.ipynb
+../../.venv/bin/python build_solution.py solution.ipynb   # перезаписывает ноутбук без outputs! для пересборки после прогона — другое имя
+../../.venv/bin/jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 solution.ipynb   # -1: финальная ячейка может обучаться часами
 ../../.venv/bin/python check_submission.py submission.csv
 ../../.venv/bin/python experiments.py <группа> [<группа> ...]
 ```

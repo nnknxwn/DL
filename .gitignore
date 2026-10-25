@@ -8,3 +8,11 @@ venv/
 
 # предсказания экспериментов (воспроизводимы, results.jsonl остаётся в git)
 **/runs/*.npy
+
+**/runs/*.pt
+**/weights/
+
+# логи, вероятности и веса сабмитов
+**/runs/*.log
+**/test_probs.npy
+**/submissions/*_weights/
